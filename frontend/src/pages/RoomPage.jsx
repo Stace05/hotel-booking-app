@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { FaChevronLeft } from 'react-icons/fa';
 import './RoomPage.css';
+import BookingForm from '../components/BookingForm';
 
 const RoomDetailsPage = () => {
   const { id } = useParams();
@@ -83,6 +84,7 @@ const RoomDetailsPage = () => {
             </ul>
           </div>
         </div>
+      <BookingForm room={room} />
       </div>
     </main>
   );
