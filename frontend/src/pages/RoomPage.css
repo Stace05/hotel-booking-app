@@ -1,0 +1,100 @@
+.room-details-main {
+  max-width: 80rem;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.room-details-card {
+  background-color: #232F72;
+  border-radius: 0.75rem;
+  padding: 2.5rem;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+  width: 100%;
+  max-width: 900px;
+  box-sizing: border-box;
+}
+
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  color: #36ADA3;
+  text-decoration: none;
+  font-weight: 600;
+  margin-bottom: 2rem;
+  font-size: 1.1rem;
+  transition: color 0.2s;
+}
+
+.back-link:hover {
+  color: #ffffff;
+}
+
+.back-icon {
+  margin-right: 0.5rem;
+}
+
+.room-content-wrapper {
+  display: flex;
+  flex-direction: row;
+  gap: 3rem;
+  align-items: flex-start;
+}
+
+.room-details-image {
+  width: 50%;
+  height: auto;
+  aspect-ratio: 4/3;
+  object-fit: cover;
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.room-info-block {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  text-align: left; 
+}
+
+.details-list-item {
+  font-size: 1.1rem;
+  color: #ffffff;
+  display: flex;
+  align-items: flex-start; 
+}
+
+.details-list-label {
+  font-weight: 700;
+  color: #36ADA3;
+  width: 110px; 
+  flex-shrink: 0; 
+  margin-right: 1.5rem;
+  text-align: right; 
+}
+
+.details-title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0 0 1rem 0;
+}
+
+.details-description {
+  font-size: 1.05rem;
+  color: #e5e7eb;
+  line-height: 1.6;
+  margin: 0 0 2rem 0;
+}
+
+.details-list {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
