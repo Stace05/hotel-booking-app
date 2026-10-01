@@ -1,0 +1,79 @@
+.room-card {
+  background-color: #232F72; 
+  border-radius: 0.75rem;
+  padding: 1.5rem; 
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  width: 380px; 
+  box-sizing: border-box;
+}
+
+.room-image {
+  width: 100%;
+  height: 250px; 
+  object-fit: cover;
+  border-radius: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.room-info-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+
+.room-details {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+  width: 100%;
+}
+
+.room-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #36ADA3; 
+  margin: 0 0 0.5rem 0;
+}
+
+.room-detail-text {
+  font-size: 1rem;
+  color: #e5e7eb;
+  margin: 0;
+}
+
+.detail-label {
+  font-weight: 600;
+  color: #36ADA3; 
+}
+
+.room-actions {
+  width: 100%;
+  display: flex;
+  justify-content: center; 
+}
+
+.view-btn {
+  display: inline-block;
+  background-color: #36ADA3; 
+  color: #ffffff;
+  text-align: center;
+  padding: 0.75rem 2.5rem;
+  border-radius: 0.5rem;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 1.1rem;
+  transition: all 0.2s;
+  border: 2px solid transparent;
+}
+
+.view-btn:hover {
+  background-color: #2F578A; 
+  border-color: #36ADA3;
+}

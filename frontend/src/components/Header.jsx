@@ -18,7 +18,7 @@ const Header = () => {
         
         <div className="nav-left">
           <Link to="/">
-            <div className="logo-img" style={{ backgroundColor: '#1f2937', borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white', fontWeight: 'bold' }}>
+            <div className="logo-img" style={{ backgroundColor: '#36ADA3', borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white', fontWeight: 'bold' }}>
               B
             </div>
           </Link>

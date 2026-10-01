@@ -1,0 +1,35 @@
+.home-main {
+  max-width: 80rem;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center; 
+}
+
+.home-header-section {
+  background-color: #232F72;
+  margin-bottom: 2rem;
+  padding: 1rem 2rem; 
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+  text-align: center;
+  width: fit-content; 
+  box-sizing: border-box;
+}
+
+.home-title {
+  font-size: 1.25rem; 
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0;
+}
+
+.rooms-container {
+  display: flex;
+  flex-direction: row; 
+  justify-content: center;
+  flex-wrap: wrap; 
+  gap: 2rem;
+  width: 100%;
+}
