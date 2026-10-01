@@ -6,21 +6,27 @@ const RoomCard = ({ room }) => {
   return (
     <div className="room-card">
       <div className="room-info-container">
-        <img
-          src={room.image}
-          alt={room.name}
-          className="room-image"
-        />
+        <img src={room.image} alt={room.name} className="room-image" />
         <div className="room-details">
           <h4 className="room-title">{room.name}</h4>
-          <p className="room-detail-text">
-            <span className="detail-label">Availability: </span>
-            {room.availability}
-          </p>
-          <p className="room-detail-text">
-            <span className="detail-label">Price: </span>
-            ${room.price}/hour
-          </p>
+          
+          <div className="room-badges">
+            <span className="badge category-badge">{room.category}</span>
+            <span className="badge beds-badge">{room.beds} people</span>
+          </div>
+
+          <p className="room-description">{room.description}</p>
+          
+          <div className="room-meta">
+            <div className="room-amenities">
+              <span className="detail-label">Amenities: </span> 
+              {room.amenities.join(', ')}
+            </div>
+            <div className="room-price">
+              <span className="detail-label">Price: </span>
+              ${room.price}/night
+            </div>
+          </div>
         </div>
       </div>
       

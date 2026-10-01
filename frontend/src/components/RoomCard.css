@@ -1,22 +1,60 @@
 .room-card {
   background-color: #232F72; 
   border-radius: 0.75rem;
-  padding: 1.5rem; 
+  padding: 1.25rem; 
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
-  width: 380px; 
+  width: 480px; 
   box-sizing: border-box;
 }
 
 .room-image {
   width: 100%;
-  height: 250px; 
+  height: 220px; 
   object-fit: cover;
   border-radius: 0.5rem;
-  margin-bottom: 1.5rem;
+  margin-bottom: 0.75rem; 
+}
+
+.room-description {
+  font-size: 0.9rem;
+  color: #e5e7eb;
+  margin: 0.5rem 0; 
+  line-height: 1.4;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.room-meta {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding-top: 0.75rem; 
+  border-top: 1px solid #2F578A;
+  margin-bottom: 1rem; 
+}
+
+.room-amenities {
+  flex: 1;
+  text-align: left;
+  font-size: 0.9rem;
+  color: #e5e7eb;
+  padding-right: 1rem;
+}
+
+.room-price {
+  font-size: 1.1rem;
+  color: #ffffff;
+  font-weight: bold;
+  text-align: right;
+  white-space: nowrap; 
 }
 
 .room-info-container {
@@ -36,10 +74,10 @@
 }
 
 .room-title {
-  font-size: 1.5rem;
+  font-size: 1.4rem;
   font-weight: 600;
-  color: #36ADA3; 
-  margin: 0 0 0.5rem 0;
+  color: #36ADA3;
+  margin: 0 0 0.25rem 0; 
 }
 
 .room-detail-text {
@@ -61,14 +99,14 @@
 
 .view-btn {
   display: inline-block;
-  background-color: #36ADA3; 
+  background-color: #36ADA3;
   color: #ffffff;
   text-align: center;
-  padding: 0.75rem 2.5rem;
+  padding: 0.6rem 2rem; 
   border-radius: 0.5rem;
   text-decoration: none;
   font-weight: 600;
-  font-size: 1.1rem;
+  font-size: 1.05rem;
   transition: all 0.2s;
   border: 2px solid transparent;
 }
@@ -77,3 +115,29 @@
   background-color: #2F578A; 
   border-color: #36ADA3;
 }
+
+.room-badges {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: center;
+  margin-bottom: 0.25rem; 
+}
+
+.badge {
+  padding: 0.25rem 0.75rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.category-badge {
+  background-color: #36ADA3;
+  color: #121358;
+}
+
+.beds-badge {
+  background-color: #2F578A;
+  color: #ffffff;
+}
+

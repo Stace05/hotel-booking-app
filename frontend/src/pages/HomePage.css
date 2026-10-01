@@ -33,3 +33,28 @@
   gap: 2rem;
   width: 100%;
 }
+
+.filters-container {
+  background-color: #232F72;
+  padding: 1rem 2.5rem;
+  border-radius: 2rem; 
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  display: flex;
+  flex-direction: row; 
+  flex-wrap: wrap; 
+  justify-content: center;
+  align-items: center;
+  gap: 2rem; 
+  margin: 0 auto 3rem auto;
+  width: fit-content;
+  max-width: 100%;
+}
+
+.filter-group {
+  display: flex;
+  flex-direction: row; 
+  align-items: center;
+  gap: 1rem;
+  color: #36ADA3;
+  font-weight: 600;
+}
