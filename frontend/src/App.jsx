@@ -7,6 +7,7 @@ import RoomPage from "./pages/RoomPage.jsx";
 import { AuthProvider } from './context/AuthContext';
 import RegisterPage from "./pages/RegisterPage.jsx"; 
 import LoginPage from "./pages/LoginPage.jsx"; 
+import BookingsPage from "./pages/BookingsPage.jsx"; 
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
           <Route path="/rooms/:id" element={<RoomPage />} />
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/login" element={<LoginPage />} />
+          <Route path="/my-bookings" element={<BookingsPage />} />
         </Routes>
       </div>
       <Footer />

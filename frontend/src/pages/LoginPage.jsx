@@ -28,7 +28,7 @@ const LoginPage = () => {
   };
 
   return (
-    <div style={{ maxWidth: '300px', margin: '4rem auto', padding: '2rem', backgroundColor: '#1a235a', borderRadius: '8px', color: 'white' }}>
+    <div style={{ maxWidth: '300px', margin: '4rem auto', padding: '2rem', backgroundColor: '#111844', borderRadius: '8px', color: 'white' }}>
       <h2 style={{ color: '#EAE0CF', textAlign: 'center' }}>Login</h2>
       {error && <p style={{ color: '#ff4d4f' }}>{error}</p>}
       <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>

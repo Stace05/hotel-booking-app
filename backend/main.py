@@ -11,7 +11,7 @@ import models
 from database import engine, SessionLocal
 from pure_fabrication import InformationExpert, BookingInformationExpert
 from bookings.booking_facade import BookingFacade
-
+from bookings.booking_state import BookingContext 
 
 models.Base.metadata.create_all(bind=engine)
 
@@ -46,6 +46,9 @@ class BookingRequest(BaseModel):
     check_in: datetime
     check_out: datetime
     extras: Optional[Extras] = None
+
+class ExtendRequest(BaseModel):
+    additional_days: int
     
 class UserRegister(BaseModel):
     name: str
@@ -76,13 +79,10 @@ def get_room(room_id: int, db: Session = Depends(get_db)):
 @app.post("/api/bookings")
 def book_room(request: BookingRequest, db: Session = Depends(get_db)):
     facade = BookingFacade(db)
-    
     try:
-        result = facade.process_booking(request)
-        return result
+        return facade.process_booking(request)
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))
-        
 
 @app.post("/api/auth/register")
 def register(request: UserRegister, db: Session = Depends(get_db)):
@@ -91,7 +91,6 @@ def register(request: UserRegister, db: Session = Depends(get_db)):
         raise HTTPException(status_code=400, detail="Email is already registered")
     
     new_user = UserFactory.create_user(request.name, request.email, request.password)
-    
     db.add(new_user)
     db.commit()
     return {"status": "success", "message": "Account created successfully"}
@@ -99,19 +98,72 @@ def register(request: UserRegister, db: Session = Depends(get_db)):
 @app.post("/api/auth/login")
 def login(request: UserLogin, db: Session = Depends(get_db)):
     user = db.query(models.User).filter(models.User.email == request.email).first()
-    
     if not user or not verify_password(request.password, user.hashed_password):
         raise HTTPException(status_code=401, detail="Invalid email or password")
     
     token = create_access_token(data={"sub": str(user.id), "role": user.role})
-    
     return {
         "access_token": token, 
         "token_type": "bearer",
-        "user": {
-            "id": user.id,
-            "name": user.name,
-            "email": user.email,
-            "role": user.role
-        }
+        "user": {"id": user.id, "name": user.name, "email": user.email, "role": user.role}
     }
+
+@app.get("/api/users/{user_id}/bookings")
+def get_user_bookings(user_id: int, db: Session = Depends(get_db)):
+    results = db.query(models.Booking, models.Room.name).join(
+        models.Room, models.Booking.room_id == models.Room.id
+    ).filter(models.Booking.user_id == user_id).all()
+    
+    user = db.query(models.User).filter(models.User.id == user_id).first()
+    
+    bookings_data = []
+    for booking, room_name in results:
+        bookings_data.append({
+            "id": booking.id,
+            "room_name": room_name,
+            "guest_name": booking.guest_name,
+            "check_in": booking.check_in,
+            "check_out": booking.check_out,
+            "total_price": booking.total_price,
+            "status": booking.status
+        })
+    
+    return {"bonus_points": user.bonus_points if user else 0, "bookings": bookings_data}
+
+@app.put("/api/bookings/{booking_id}/cancel")
+def cancel_booking(booking_id: int, db: Session = Depends(get_db)):
+    booking = db.query(models.Booking).filter(models.Booking.id == booking_id).first()
+    if not booking:
+        raise HTTPException(status_code=404, detail="Booking not found")
+    
+    try:
+        context = BookingContext(booking)
+        context.cancel() 
+        
+        if booking.user_id:
+            user = db.query(models.User).filter(models.User.id == booking.user_id).first()
+            if user:
+                bonus_to_remove = booking.total_price * 0.05
+                user.bonus_points -= bonus_to_remove
+                if user.bonus_points < 0:
+                    user.bonus_points = 0 
+        db.delete(booking)
+        db.commit()
+        
+        return {"status": "success", "message": "Booking calcelled"}
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e))
+
+@app.put("/api/bookings/{booking_id}/extend")
+def extend_booking(booking_id: int, request: ExtendRequest, db: Session = Depends(get_db)):
+    booking = db.query(models.Booking).filter(models.Booking.id == booking_id).first()
+    if not booking:
+        raise HTTPException(status_code=404, detail="Booking not found")
+    
+    try:
+        context = BookingContext(booking)
+        message = context.extend(request.additional_days)
+        db.commit()
+        return {"status": "success", "message": message, "new_price": booking.total_price}
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e))

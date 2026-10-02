@@ -16,6 +16,11 @@ const BookingForm = ({ room }) => {
 
   const [status, setStatus] = useState({ type: '', message: '' });
   const [bookingResult, setBookingResult] = useState(null); 
+  const [alerts, setAlerts] = useState([]); 
+
+  const removeAlert = (id) => {
+    setAlerts(alerts.filter(alert => alert.id !== id));
+  };
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -62,6 +67,11 @@ const BookingForm = ({ room }) => {
         nights: data.nights,
         total_price: data.total_price
       });
+      const bonus = (data.total_price * 0.05).toFixed(2);
+      setAlerts([
+        { id: 1, text: ` ${bonus} bonuses have been credited to your account!` },
+        { id: 2, text: `your reservation has been confirmed.` }
+      ]);
       setFormData({ guest_name: '', check_in: '', check_out: '', add_meals: false, add_transfer: false, add_spa: false });
     } catch (error) {
       setStatus({ type: 'error', message: error.message });
@@ -98,6 +108,15 @@ const BookingForm = ({ room }) => {
           )}
         </div>
       )}
+
+      <div className="alerts-container">
+        {alerts.map(alert => (
+          <div key={alert.id} className="alert-box">
+            <span>{alert.text}</span>
+            <button className="close-alert" onClick={() => removeAlert(alert.id)}>×</button>
+          </div>
+        ))}
+      </div>
 
       <form onSubmit={handleSubmit} className="booking-form-layout">
         
