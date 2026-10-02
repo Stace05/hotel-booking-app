@@ -1,5 +1,5 @@
 .room-card {
-  background-color: #232F72; 
+  background-color: #4B5694; 
   border-radius: 0.75rem;
   padding: 1.25rem; 
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
@@ -37,7 +37,7 @@
   align-items: center;
   width: 100%;
   padding-top: 0.75rem; 
-  border-top: 1px solid #2F578A;
+  border-top: 1px solid #7288AE;
   margin-bottom: 1rem; 
 }
 
@@ -76,7 +76,7 @@
 .room-title {
   font-size: 1.4rem;
   font-weight: 600;
-  color: #36ADA3;
+  color: #EAE0CF;
   margin: 0 0 0.25rem 0; 
 }
 
@@ -88,7 +88,7 @@
 
 .detail-label {
   font-weight: 600;
-  color: #36ADA3; 
+  color: #EAE0CF; 
 }
 
 .room-actions {
@@ -99,7 +99,7 @@
 
 .view-btn {
   display: inline-block;
-  background-color: #36ADA3;
+  background-color: #EAE0CF;
   color: #ffffff;
   text-align: center;
   padding: 0.6rem 2rem; 
@@ -112,8 +112,8 @@
 }
 
 .view-btn:hover {
-  background-color: #2F578A; 
-  border-color: #36ADA3;
+  background-color: #7288AE; 
+  border-color: #EAE0CF;
 }
 
 .room-badges {
@@ -132,12 +132,12 @@
 }
 
 .category-badge {
-  background-color: #36ADA3;
-  color: #121358;
+  background-color: #EAE0CF;
+  color: #111844;
 }
 
 .beds-badge {
-  background-color: #2F578A;
+  background-color: #7288AE;
   color: #ffffff;
 }
 

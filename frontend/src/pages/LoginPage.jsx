@@ -29,7 +29,7 @@ const LoginPage = () => {
 
   return (
     <div style={{ maxWidth: '300px', margin: '4rem auto', padding: '2rem', backgroundColor: '#1a235a', borderRadius: '8px', color: 'white' }}>
-      <h2 style={{ color: '#36ADA3', textAlign: 'center' }}>Login</h2>
+      <h2 style={{ color: '#EAE0CF', textAlign: 'center' }}>Login</h2>
       {error && <p style={{ color: '#ff4d4f' }}>{error}</p>}
       <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
         <input type="email" placeholder="Email" required className="form-input"
@@ -39,7 +39,7 @@ const LoginPage = () => {
         <button type="submit" className="submit-btn" style={{ alignSelf: 'center', width: '50%' }}>Login</button>
       </form>
       <p style={{ marginTop: '1rem', textAlign: 'center' }}>
-        Don't have an account? <Link to="/register" style={{ color: '#36ADA3' }}>Register</Link>
+        Don't have an account? <Link to="/register" style={{ color: '#EAE0CF' }}>Register</Link>
       </p>
     </div>
   );

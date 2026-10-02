@@ -25,7 +25,7 @@ const RegisterPage = () => {
 
   return (
     <div style={{ maxWidth: '300px', margin: '4rem auto', padding: '2rem', backgroundColor: '#1a235a', borderRadius: '8px', color: 'white' }}>
-      <h2 style={{ color: '#36ADA3', textAlign: 'center' }}>Register</h2>
+      <h2 style={{ color: '#EAE0CF', textAlign: 'center' }}>Register</h2>
       {error && <p style={{ color: '#ff4d4f' }}>{error}</p>}
       <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
         <input type="text" placeholder="Name" required className="form-input"
@@ -37,7 +37,7 @@ const RegisterPage = () => {
         <button type="submit" className="submit-btn" style={{ alignSelf: 'center', width: '50%' }}>Register</button>
       </form>
       <p style={{ marginTop: '1rem', textAlign: 'center' }}>
-        Already have an account? <Link to="/login" style={{ color: '#36ADA3' }}>Login</Link>
+        Already have an account? <Link to="/login" style={{ color: '#EAE0CF' }}>Login</Link>
       </p>
     </div>
   );

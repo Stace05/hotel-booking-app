@@ -129,7 +129,7 @@ const BookingForm = ({ room }) => {
             </label>
           </div>
 
-          <button type="submit" className="submit-btn" disabled={status.type === 'loading'}>
+          <button type="submit" className="submit-btn" disabled={status.type === 'loading'} style={{ alignSelf: 'center', width: '50%' }}>
             {status.type === 'loading' ? 'Processing...' : 'Confirm Booking'}
           </button>
         </div>

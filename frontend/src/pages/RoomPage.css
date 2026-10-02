@@ -8,7 +8,7 @@
 }
 
 .room-details-card {
-  background-color: #232F72;
+  background-color: #4B5694;
   border-radius: 0.75rem;
   padding: 2.5rem;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
@@ -20,7 +20,7 @@
 .back-link {
   display: inline-flex;
   align-items: center;
-  color: #36ADA3;
+  color: #EAE0CF;
   text-decoration: none;
   font-weight: 600;
   margin-bottom: 2rem;
@@ -68,7 +68,7 @@
 
 .details-list-label {
   font-weight: 700;
-  color: #36ADA3;
+  color: #EAE0CF;
   width: 110px; 
   flex-shrink: 0; 
   margin-right: 1.5rem;
