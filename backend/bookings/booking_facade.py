@@ -2,6 +2,7 @@ from sqlalchemy.orm import Session
 from datetime import datetime
 from pure_fabrication import InformationExpert, BookingInformationExpert
 from bookings.pricing_strategy import PricingContext, get_pricing_strategy
+from notifications.notifications_observer import BookingEventManager, BonusPointsObserver, EmailNotificationObserver
 
 class BookingFacade:
     def __init__(self, db: Session):
@@ -43,7 +44,16 @@ class BookingFacade:
             total_price=final_price           
         )
 
-        # observer
+        event_manager = BookingEventManager()
+        
+        event_manager.attach(BonusPointsObserver(self.db))
+        event_manager.attach(EmailNotificationObserver())
+        
+        event_manager.notify("booking_created", {
+            "user_id": request_data.user_id,
+            "guest_name": request_data.guest_name,
+            "total_price": final_price
+        })
 
         return {
             "status": "success",

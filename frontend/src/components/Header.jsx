@@ -31,7 +31,7 @@ const Header = () => {
               
               {user && (
                 <>
-                  <Link to="/my-bookings" className="nav-link">My Bookings</Link>
+                  <Link to="/my-bookings" className="nav-link">Bookings</Link>
                   
                   {user.role === 'admin' && (
                     <Link to="/rooms/add" className="nav-link">Add Room</Link>
@@ -54,7 +54,7 @@ const Header = () => {
             </>
           ) : (
             <>
-              <span className="user-greeting">{user.name}!</span>
+              <span className="user-greeting">{user.name}</span>
               
               {user.role === 'admin' && (
                 <Link to="/rooms/my" className="auth-link">
