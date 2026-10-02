@@ -3,6 +3,8 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from sqlalchemy.orm import Session
 from pydantic import BaseModel
+from auth.security import verify_password, create_access_token
+from auth.user_factory import UserFactory
 from datetime import datetime
 
 import models
@@ -36,6 +38,15 @@ class BookingRequest(BaseModel):
     guest_name: str
     check_in: datetime
     check_out: datetime
+    
+class UserRegister(BaseModel):
+    name: str
+    email: str
+    password: str
+
+class UserLogin(BaseModel):
+    email: str
+    password: str
 
 @app.get("/api/health")
 def health_check():
@@ -64,3 +75,35 @@ def book_room(request: BookingRequest, db: Session = Depends(get_db)):
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))
         
+
+@app.post("/api/auth/register")
+def register(request: UserRegister, db: Session = Depends(get_db)):
+    existing_user = db.query(models.User).filter(models.User.email == request.email).first()
+    if existing_user:
+        raise HTTPException(status_code=400, detail="Email is already registered")
+    
+    new_user = UserFactory.create_user(request.name, request.email, request.password)
+    
+    db.add(new_user)
+    db.commit()
+    return {"status": "success", "message": "Account created successfully"}
+
+@app.post("/api/auth/login")
+def login(request: UserLogin, db: Session = Depends(get_db)):
+    user = db.query(models.User).filter(models.User.email == request.email).first()
+    
+    if not user or not verify_password(request.password, user.hashed_password):
+        raise HTTPException(status_code=401, detail="Invalid email or password")
+    
+    token = create_access_token(data={"sub": str(user.id), "role": user.role})
+    
+    return {
+        "access_token": token, 
+        "token_type": "bearer",
+        "user": {
+            "id": user.id,
+            "name": user.name,
+            "email": user.email,
+            "role": user.role
+        }
+    }

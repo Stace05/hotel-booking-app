@@ -1,15 +1,17 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { FaUser, FaSignInAlt, FaSignOutAlt, FaBuilding } from 'react-icons/fa';
+import { FaUser, FaSignInAlt, FaSignOutAlt, FaBuilding, FaSuitcase } from 'react-icons/fa';
+import { AuthContext } from '../context/AuthContext'; 
 import './Header.css'; 
 
 const Header = () => {
   const navigate = useNavigate();
-
-  const isAuthenticated = false; 
+  
+  const { user, logout } = useContext(AuthContext); 
 
   const handleLogout = () => {
-    console.log('Кнопка виходу натиснута');
+    logout();
+    navigate('/'); 
   };
 
   return (
@@ -27,10 +29,13 @@ const Header = () => {
             <div className="desktop-menu-links">
               <Link to="/" className="nav-link">Rooms</Link>
               
-              {isAuthenticated && (
+              {user && (
                 <>
-                  <Link to="/bookings" className="nav-link">Bookings</Link>
-                  <Link to="/rooms/add" className="nav-link">Add Room</Link>
+                  <Link to="/my-bookings" className="nav-link">My Bookings</Link>
+                  
+                  {user.role === 'admin' && (
+                    <Link to="/rooms/add" className="nav-link">Add Room</Link>
+                  )}
                 </>
               )}
             </div>
@@ -38,7 +43,7 @@ const Header = () => {
         </div>
 
         <div className="nav-right">
-          {!isAuthenticated ? (
+          {!user ? (
             <>
               <Link to="/login" className="auth-link">
                 <FaSignInAlt className="nav-icon" /> Login
@@ -49,9 +54,14 @@ const Header = () => {
             </>
           ) : (
             <>
-              <Link to="/rooms/my" className="auth-link">
-                <FaBuilding className="nav-icon" /> My Rooms
-              </Link>
+              <span className="user-greeting">{user.name}!</span>
+              
+              {user.role === 'admin' && (
+                <Link to="/rooms/my" className="auth-link">
+                  <FaBuilding className="nav-icon" /> My Rooms
+                </Link>
+              )}
+              
               <button onClick={handleLogout} className="auth-link auth-button">
                 <FaSignOutAlt className="nav-icon" /> Sign Out
               </button>
