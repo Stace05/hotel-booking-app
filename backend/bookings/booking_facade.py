@@ -36,9 +36,11 @@ class BookingFacade:
 
         booking = self.booking_controller.create_booking(
             room_id=room_id,
+            user_id=request_data.user_id,     
             guest_name=request_data.guest_name,
             check_in=check_in,
-            check_out=check_out
+            check_out=check_out,
+            total_price=final_price           
         )
 
         # observer

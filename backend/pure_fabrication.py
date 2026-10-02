@@ -25,12 +25,14 @@ class BookingInformationExpert:
         
         return overlapping_booking is None
 
-    def create_booking(self, room_id: int, guest_name: str, check_in: datetime, check_out: datetime):
+    def create_booking(self, room_id: int, guest_name: str, check_in: datetime, check_out: datetime, user_id: int = None, total_price: float = 0.0):
         new_booking = models.Booking(
             room_id=room_id,
+            user_id=user_id,             
             guest_name=guest_name,
             check_in=check_in,
-            check_out=check_out
+            check_out=check_out,
+            total_price=total_price      
         )
         self.db.add(new_booking)
         self.db.commit()

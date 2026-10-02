@@ -1,7 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
+import { Link } from 'react-router-dom';
+import { AuthContext } from '../context/AuthContext';
 import './BookingForm.css';
 
 const BookingForm = ({ room }) => {
+  const { user } = useContext(AuthContext);
   const [formData, setFormData] = useState({
     guest_name: '',
     check_in: '',
@@ -29,6 +32,7 @@ const BookingForm = ({ room }) => {
 
     const payload = {
       room_id: room.id,
+      user_id: user.id, 
       guest_name: formData.guest_name,
       check_in: `${formData.check_in}T14:00:00`,
       check_out: `${formData.check_out}T12:00:00`,
@@ -38,6 +42,7 @@ const BookingForm = ({ room }) => {
         spa: formData.add_spa
       }
     };
+    
 
     try {
       const response = await fetch('http://localhost:8000/api/bookings', {
@@ -62,6 +67,17 @@ const BookingForm = ({ room }) => {
       setStatus({ type: 'error', message: error.message });
     }
   };
+  
+  if (!user) {
+    return (
+      <div className="booking-form-container" style={{ textAlign: 'center' }}>
+        <h2 className="booking-title">Book this Room</h2>
+        <p style={{ color: 'white', fontSize: '1.2rem' }}>
+          Please <Link to="/login" style={{ color: '#EAE0CF' }}>Login</Link> or <Link to="/register" style={{ color: '#EAE0CF' }}>Register</Link> to book a room.
+        </p>
+      </div>
+    );
+  }
 
   return (
     <div className="booking-form-container">

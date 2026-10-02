@@ -6,11 +6,12 @@ from pydantic import BaseModel
 from auth.security import verify_password, create_access_token
 from auth.user_factory import UserFactory
 from datetime import datetime
-
+from typing import Optional
 import models
 from database import engine, SessionLocal
 from pure_fabrication import InformationExpert, BookingInformationExpert
 from bookings.booking_facade import BookingFacade
+
 
 models.Base.metadata.create_all(bind=engine)
 
@@ -33,11 +34,18 @@ def get_db():
     finally:
         db.close()
 
+class Extras(BaseModel):
+    meals: bool = False
+    transfer: bool = False
+    spa: bool = False
+    
 class BookingRequest(BaseModel):
     room_id: int
+    user_id: Optional[int] = None
     guest_name: str
     check_in: datetime
     check_out: datetime
+    extras: Optional[Extras] = None
     
 class UserRegister(BaseModel):
     name: str
