@@ -8,6 +8,7 @@ from datetime import datetime
 import models
 from database import engine, SessionLocal
 from pure_fabrication import InformationExpert, BookingInformationExpert
+from bookings.booking_facade import BookingFacade
 
 models.Base.metadata.create_all(bind=engine)
 
@@ -55,18 +56,11 @@ def get_room(room_id: int, db: Session = Depends(get_db)):
 
 @app.post("/api/bookings")
 def book_room(request: BookingRequest, db: Session = Depends(get_db)):
-    controller = BookingInformationExpert(db)
-
-    is_available = controller.is_room_available(request.room_id, request.check_in, request.check_out)
-
-    if not is_available:
-        raise HTTPException(status_code=400, detail="This room is already booked for the selected dates.")
-        
-    booking = controller.create_booking(
-        room_id=request.room_id,
-        guest_name=request.guest_name,
-        check_in=request.check_in,
-        check_out=request.check_out
-    )
+    facade = BookingFacade(db)
     
-    return {"status": "success", "message": "Room successfully booked!"}
+    try:
+        result = facade.process_booking(request)
+        return result
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e))
+        
