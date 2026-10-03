@@ -58,7 +58,7 @@ const Header = () => {
               
               {user.role === 'admin' && (
                 <Link to="/rooms/my" className="auth-link">
-                  <FaBuilding className="nav-icon" /> My Rooms
+                  <FaBuilding className="nav-icon" /> Reports
                 </Link>
               )}
               

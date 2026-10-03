@@ -3,6 +3,8 @@ from datetime import datetime
 from pure_fabrication import InformationExpert, BookingInformationExpert
 from bookings.pricing_strategy import PricingContext, get_pricing_strategy
 from notifications.notifications_observer import BookingEventManager, BonusPointsObserver, EmailNotificationObserver
+from bookings.room_factory import RoomFactory
+from services.services_decorator import BaseBooking, MealsDecorator, TransferDecorator, SpaDecorator
 
 class BookingFacade:
     def __init__(self, db: Session):
@@ -30,10 +32,20 @@ class BookingFacade:
         pricing_context = PricingContext(strategy)
         base_price = pricing_context.execute_pricing(base_rate=room.price, nights=nights)
 
-        # factory
-        # decorator
+        room_policy = RoomFactory.get_policy(room.name)
+        benefits = room_policy.get_benefits()
+
+        booking_service = BaseBooking(base_price=base_price)
+
+        if hasattr(request_data, 'extras') and request_data.extras:
+            if request_data.extras.meals:
+                booking_service = MealsDecorator(booking_service, nights=nights)
+            if request_data.extras.transfer:
+                booking_service = TransferDecorator(booking_service)
+            if request_data.extras.spa:
+                booking_service = SpaDecorator(booking_service)
         
-        final_price = base_price 
+        final_price = booking_service.get_cost() 
 
         booking = self.booking_controller.create_booking(
             room_id=room_id,
@@ -60,5 +72,6 @@ class BookingFacade:
             "message": "Room successfully booked",
             "booking_id": booking.id,
             "nights": nights,
-            "total_price": final_price
+            "total_price": final_price,
+            "benefits": benefits 
         }
