@@ -2,6 +2,7 @@ from fastapi import FastAPI, Depends, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from sqlalchemy.orm import Session
+from sqlalchemy import func
 from pydantic import BaseModel
 from auth.security import verify_password, create_access_token
 from auth.user_factory import UserFactory
@@ -167,3 +168,30 @@ def extend_booking(booking_id: int, request: ExtendRequest, db: Session = Depend
         return {"status": "success", "message": message, "new_price": booking.total_price}
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))
+
+@app.get("/api/admin/reports")
+def get_admin_reports(db: Session = Depends(get_db)):
+    room_stats = db.query(
+        models.Room.name, 
+        func.count(models.Booking.id).label("total_bookings"),
+        func.sum(models.Booking.total_price).label("total_revenue")
+    ).outerjoin(models.Booking, models.Booking.room_id == models.Room.id).group_by(models.Room.id).all()
+
+    monthly_revenue = db.query(
+        func.strftime('%Y-%m', models.Booking.check_in).label("month"),
+        func.sum(models.Booking.total_price).label("revenue")
+    ).filter(models.Booking.status != "Cancelled").group_by("month").all()
+    
+    top_clients = db.query(
+        models.User.name,
+        models.User.email,
+        func.count(models.Booking.id).label("bookings_count"),
+        func.sum(models.Booking.total_price).label("total_spent")
+    ).join(models.Booking).filter(models.Booking.status != "Cancelled") \
+     .group_by(models.User.id).order_by(func.count(models.Booking.id).desc()).limit(5).all()
+
+    return {
+        "room_stats": [{"name": r[0], "bookings": r[1], "revenue": r[2] or 0} for r in room_stats],
+        "monthly_revenue": [{"month": r[0], "revenue": r[1] or 0} for r in monthly_revenue],
+        "top_clients": [{"name": c[0], "email": c[1], "bookings_count": c[2], "total_spent": c[3] or 0} for c in top_clients]
+    }

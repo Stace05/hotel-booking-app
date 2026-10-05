@@ -29,14 +29,8 @@ const Header = () => {
             <div className="desktop-menu-links">
               <Link to="/" className="nav-link">Rooms</Link>
               
-              {user && (
-                <>
-                  <Link to="/my-bookings" className="nav-link">Bookings</Link>
-                  
-                  {user.role === 'admin' && (
-                    <Link to="/rooms/add" className="nav-link">Add Room</Link>
-                  )}
-                </>
+              {user && user.role !== 'admin' && (
+                <Link to="/my-bookings" className="nav-link">Bookings</Link>
               )}
             </div>
           </div>
@@ -57,7 +51,7 @@ const Header = () => {
               <span className="user-greeting">{user.name}</span>
               
               {user.role === 'admin' && (
-                <Link to="/rooms/my" className="auth-link">
+                <Link to="/admin/reports" className="auth-link">
                   <FaBuilding className="nav-icon" /> Reports
                 </Link>
               )}

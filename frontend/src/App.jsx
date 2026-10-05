@@ -8,6 +8,7 @@ import { AuthProvider } from './context/AuthContext';
 import RegisterPage from "./pages/RegisterPage.jsx"; 
 import LoginPage from "./pages/LoginPage.jsx"; 
 import BookingsPage from "./pages/BookingsPage.jsx"; 
+import ReportsPage from './pages/ReportsPage';
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/my-bookings" element={<BookingsPage />} />
+          <Route element={<ReportsPage />} path="/admin/reports" />
         </Routes>
       </div>
       <Footer />
@@ -30,3 +32,4 @@ function App() {
 }
 
 export default App;
+
