@@ -12,7 +12,7 @@ const RoomCard = ({ room }) => {
           
           <div className="room-badges">
             <span className="badge category-badge">{room.category}</span>
-            <span className="badge beds-badge">{room.beds} people</span>
+            <span className="badge beds-badge">{room.beds} {room.beds === 1 ? 'person' : 'people'}</span>
           </div>
 
           <p className="room-description">{room.description}</p>

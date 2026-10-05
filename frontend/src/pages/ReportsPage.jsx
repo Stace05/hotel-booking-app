@@ -43,7 +43,7 @@ const AdminReportsPage = () => {
               {report.room_stats.map((room, idx) => (
                 <tr key={idx} style={{ borderBottom: '1px solid rgba(234, 224, 207, 0.1)' }}>
                   <td style={{ padding: '0.5rem 0' }}>{room.name}</td>
-                  <td>{room.bookings} times</td>
+                  <td>{room.bookings} {room.bookings === 1 ? 'time' : 'times'}</td>
                   <td>${room.revenue.toFixed(2)}</td>
                 </tr>
               ))}
@@ -91,7 +91,7 @@ const AdminReportsPage = () => {
                 <tr key={idx} style={{ borderBottom: '1px solid rgba(234, 224, 207, 0.1)' }}>
                   <td style={{ padding: '0.5rem 0' }}>{client.name}</td>
                   <td>{client.email}</td>
-                  <td>{client.bookings_count} stays</td>
+                  <td>{client.bookings_count} {client.bookings_count === 1 ? 'stay' : 'stays'}</td>
                   <td style={{ color: '#AEC4D4' }}>${client.total_spent.toFixed(2)}</td>
                 </tr>
               ))}
