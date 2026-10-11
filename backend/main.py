@@ -60,6 +60,15 @@ class UserLogin(BaseModel):
     email: str
     password: str
 
+class RoomCreate(BaseModel):
+    name: str
+    type: str          
+    capacity: int      
+    price: float
+    description: str
+    amenities: str    
+    image: str = "room1.jpg"
+
 @app.get("/api/health")
 def health_check():
     return {"status": "success"}
@@ -76,6 +85,22 @@ def get_room(room_id: int, db: Session = Depends(get_db)):
     if not room:
         raise HTTPException(status_code=404, detail="Room not found")
     return room
+
+@app.post("/api/rooms")
+def create_room(room_data: RoomCreate, db: Session = Depends(get_db)):
+    new_room = models.Room(
+        name=room_data.name,
+        type=room_data.type,
+        capacity=room_data.capacity,
+        price=room_data.price,
+        description=room_data.description,
+        amenities=room_data.amenities,
+        image=room_data.image
+    )
+    db.add(new_room)
+    db.commit()
+    db.refresh(new_room)
+    return {"status": "success", "message": "Room added successfully", "room_id": new_room.id}
 
 @app.post("/api/bookings")
 def book_room(request: BookingRequest, db: Session = Depends(get_db)):
@@ -195,3 +220,16 @@ def get_admin_reports(db: Session = Depends(get_db)):
         "monthly_revenue": [{"month": r[0], "revenue": r[1] or 0} for r in monthly_revenue],
         "top_clients": [{"name": c[0], "email": c[1], "bookings_count": c[2], "total_spent": c[3] or 0} for c in top_clients]
     }
+    
+@app.delete("/api/rooms/{room_id}")
+def delete_room(room_id: int, db: Session = Depends(get_db)):
+    room = db.query(models.Room).filter(models.Room.id == room_id).first()
+    if not room:
+        raise HTTPException(status_code=404, detail="Room not found")
+    
+    db.query(models.Booking).filter(models.Booking.room_id == room_id).delete()
+    
+    db.delete(room)
+    db.commit()
+    
+    return {"status": "success", "message": "Room and its bookings deleted successfully"}

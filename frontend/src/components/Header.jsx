@@ -51,9 +51,12 @@ const Header = () => {
               <span className="user-greeting">{user.name}</span>
               
               {user.role === 'admin' && (
-                <Link to="/admin/reports" className="auth-link">
+                <> <Link to="/admin/reports" className="auth-link">
                   <FaBuilding className="nav-icon" /> Reports
                 </Link>
+                <Link to="/admin/add-room" className="auth-link">
+                    + Add Room
+                  </Link> </>
               )}
               
               <button onClick={handleLogout} className="auth-link auth-button">

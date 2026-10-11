@@ -19,7 +19,7 @@ const AdminReportsPage = () => {
   }, [user]);
 
   if (!user || user.role !== 'admin') return <h2 style={{ textAlign: 'center', marginTop: '3rem' }}>Access Denied. Admins only.</h2>;
-  if (loading) return <h2 style={{ textAlign: 'center', marginTop: '3rem' }}>Generating Reports...</h2>;
+  if (loading) return <h2 style={{ textAlign: 'center', marginTop: '3rem', color: '#ffffff' }}>Generating Reports...</h2>;
 
   return (
     <div style={{ maxWidth: '1000px', margin: '3rem auto', padding: '0 1rem' }}>

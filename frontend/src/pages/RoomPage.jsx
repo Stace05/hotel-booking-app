@@ -1,11 +1,14 @@
-import React, { useState, useEffect } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import React, { useState, useEffect, useContext } from 'react'; 
+import { useParams, Link, useNavigate } from 'react-router-dom'; 
 import { FaChevronLeft } from 'react-icons/fa';
+import { AuthContext } from '../context/AuthContext'; 
 import './RoomPage.css';
 import BookingForm from '../components/BookingForm';
 
 const RoomDetailsPage = () => {
   const { id } = useParams();
+  const navigate = useNavigate(); 
+  const { user } = useContext(AuthContext); 
   
   const [room, setRoom] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -28,6 +31,24 @@ const RoomDetailsPage = () => {
         setIsLoading(false);
       });
   }, [id]);
+
+  const handleDeleteRoom = async () => {
+    if (!window.confirm('Are you sure you want to delete this room? ALL bookings for this room will also be deleted!')) return;
+    
+    try {
+      const res = await fetch(`http://localhost:8000/api/rooms/${id}`, {
+        method: 'DELETE'
+      });
+      if (res.ok) {
+        alert('Room deleted successfully.');
+        navigate('/'); 
+      } else {
+        alert('Failed to delete room.');
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
   if (isLoading) {
     return (
@@ -82,6 +103,13 @@ const RoomDetailsPage = () => {
                 {room.amenities.join(', ')}
               </li>
             </ul>
+
+            {user && user.role === 'admin' && (
+              <button onClick={handleDeleteRoom} className="delete-room-btn">
+                Delete Room
+              </button>
+            )}
+
           </div>
         </div>
       <BookingForm room={room} />

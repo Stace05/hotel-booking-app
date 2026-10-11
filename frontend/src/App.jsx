@@ -9,6 +9,7 @@ import RegisterPage from "./pages/RegisterPage.jsx";
 import LoginPage from "./pages/LoginPage.jsx"; 
 import BookingsPage from "./pages/BookingsPage.jsx"; 
 import ReportsPage from './pages/ReportsPage';
+import AddRoomPage from './pages/AddRoomPage';
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/my-bookings" element={<BookingsPage />} />
           <Route element={<ReportsPage />} path="/admin/reports" />
+          <Route element={<AddRoomPage />} path="/admin/add-room" />
         </Routes>
       </div>
       <Footer />
