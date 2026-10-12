@@ -18,13 +18,13 @@ class BookingFacade:
         check_out = request_data.check_out
         
         if not self.booking_controller.is_room_available(room_id, check_in, check_out):
-            raise ValueError("This room is already booked for the selected dates.")
+            raise ValueError("This room is already booked for the selected dates!")
 
         room = self.room_controller.get_room_by_id(room_id)
         if not room:
             raise ValueError("Room not found.")
 
-        nights = (check_out - check_in).days
+        nights = (check_out - check_in).days 
         if nights <= 0:
             raise ValueError("Check-out date must be after check-in date.")
 

@@ -1,13 +1,32 @@
 from database import SessionLocal, engine
 import models
+import bcrypt  
 
 models.Base.metadata.create_all(bind=engine)
 
 def seed_db():
     db = SessionLocal()
     
+    admin_email = "admin@bookit.com"
+    if not db.query(models.User).filter(models.User.email == admin_email).first():
+        
+        salt = bcrypt.gensalt()
+        hashed_pw = bcrypt.hashpw("123456".encode('utf-8'), salt).decode('utf-8')
+        
+        admin_user = models.User(
+            name="Admin",
+            email=admin_email,
+            hashed_password=hashed_pw, 
+            role="admin" 
+        )
+        db.add(admin_user)
+        print("Admin user created successfully!")
+    else:
+        print("Admin user already exists.")
+
     if db.query(models.Room).count() > 0:
         print("Database already has rooms")
+        db.commit() 
         db.close()
         return
 
@@ -50,7 +69,6 @@ def seed_db():
         }
     ]
     
-
     for data in rooms_data:
         room = models.Room(**data)
         db.add(room)
