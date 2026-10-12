@@ -20,8 +20,8 @@ const RoomCard = ({ room }) => {
           <div className="room-meta">
             <div className="room-amenities">
               <span className="detail-label">Amenities: </span> 
-              {room.amenities.join(', ')}
-            </div>
+              {Array.isArray(room.amenities) ? room.amenities.join(', ') : room.amenities}            
+              </div>
             <div className="room-price">
               <span className="detail-label">Price: </span>
               ${room.price}/night

@@ -34,10 +34,6 @@ const HomePage = () => {
 
   return (
     <main className="home-main">
-      <section className="home-header-section">
-        <h1 className="home-title">Available Rooms</h1>
-      </section>
-
       <section className="filters-container">
         <div className="filter-group">
           <label>Category:</label>
@@ -97,7 +93,3 @@ const HomePage = () => {
 
 export default HomePage;
 
-
-
-
- 

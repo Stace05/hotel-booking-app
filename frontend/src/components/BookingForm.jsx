@@ -11,7 +11,11 @@ const BookingForm = ({ room }) => {
     check_out: '',
     add_meals: false,
     add_transfer: false,
-    add_spa: false
+    add_spa: false,
+    payment_method: 'card', 
+    card_number: '',
+    card_expiry: '',
+    card_cvv: ''
   });
 
   const [status, setStatus] = useState({ type: '', message: '' });
@@ -48,7 +52,6 @@ const BookingForm = ({ room }) => {
       }
     };
     
-
     try {
       const response = await fetch('http://localhost:8000/api/bookings', {
         method: 'POST',
@@ -70,9 +73,13 @@ const BookingForm = ({ room }) => {
       const bonus = (data.total_price * 0.05).toFixed(2);
       setAlerts([
         { id: 1, text: ` ${bonus} bonuses have been credited to your account!` },
-        { id: 2, text: `your reservation has been confirmed.` }
+        { id: 2, text: `Your reservation has been confirmed.` }
       ]);
-      setFormData({ guest_name: '', check_in: '', check_out: '', add_meals: false, add_transfer: false, add_spa: false });
+      
+      setFormData({ 
+        guest_name: '', check_in: '', check_out: '', add_meals: false, add_transfer: false, add_spa: false,
+        payment_method: 'card', card_number: '', card_expiry: '', card_cvv: '' 
+      });
     } catch (error) {
       setStatus({ type: 'error', message: error.message });
     }
@@ -91,7 +98,7 @@ const BookingForm = ({ room }) => {
 
   return (
     <div className="booking-form-container">
-      <h2 className="booking-title">Book this Room</h2>
+      <h2 className="booking-title">Checkout</h2>
       
       {status.message && (
         <div className={`status-message ${status.type}`}>
@@ -121,6 +128,7 @@ const BookingForm = ({ room }) => {
       <form onSubmit={handleSubmit} className="booking-form-layout">
         
         <div className="form-left-col">
+          
           <div className="form-group">
             <label htmlFor="guest_name">Full Name</label>
             <input type="text" id="guest_name" name="guest_name" required
@@ -128,23 +136,62 @@ const BookingForm = ({ room }) => {
               className="form-input" />
           </div>
 
-          <div className="form-group">
-            <label htmlFor="check_in">Check-in Date</label>
-            <input type="date" id="check_in" name="check_in" required
-              value={formData.check_in} onChange={handleChange}
-              onClick={(e) => e.target.showPicker && e.target.showPicker()}
-              onFocus={(e) => e.target.showPicker && e.target.showPicker()}
-              className="form-input date-input" />
+          <div className="form-row-group">
+            <div className="form-group">
+              <label htmlFor="check_in">Check-in Date</label>
+              <input type="date" id="check_in" name="check_in" required
+                value={formData.check_in} onChange={handleChange}
+                className="form-input date-input" />
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="check_out">Check-out Date</label>
+              <input type="date" id="check_out" name="check_out" required
+                value={formData.check_out} onChange={handleChange}
+                className="form-input date-input" />
+            </div>
           </div>
 
-          <div className="form-group">
-            <label htmlFor="check_out">Check-out Date</label>
-            <input type="date" id="check_out" name="check_out" required
-              value={formData.check_out} onChange={handleChange}
-              onClick={(e) => e.target.showPicker && e.target.showPicker()}
-              onFocus={(e) => e.target.showPicker && e.target.showPicker()}
-              className="form-input date-input" />
+          <hr className="form-divider" />
+
+          <h3 className="section-title">Payment Method</h3>
+          <div className="payment-options">
+            <label className={`payment-option ${formData.payment_method === 'card' ? 'selected' : ''}`}>
+              <input type="radio" name="payment_method" value="card" checked={formData.payment_method === 'card'} onChange={handleChange} />
+              <img src="/logos/visa_logo.jpg" alt="Visa" className="pay-logo" />
+              <img src="/logos/mastercard_logo.jpg" alt="Mastercard" className="pay-logo" />
+            </label>
+            <label className={`payment-option ${formData.payment_method === 'paypal' ? 'selected' : ''}`}>
+              <input type="radio" name="payment_method" value="paypal" checked={formData.payment_method === 'paypal'} onChange={handleChange} />
+              <img src="/logos/paypal_logo.jpg" alt="PayPal" className="pay-logo" />
+            </label>
           </div>
+
+          {formData.payment_method === 'card' && (
+            <div className="credit-card-details">
+              <div className="form-group full-width">
+                <label>Card Number</label>
+                <input type="text" name="card_number" value={formData.card_number} onChange={handleChange} className="form-input payment-input" placeholder="0000 0000 0000 0000" maxLength="19" required={formData.payment_method === 'card'} />
+              </div>
+              <div className="form-row-group">
+                <div className="form-group">
+                  <label>Expiry Date</label>
+                  <input type="text" name="card_expiry" value={formData.card_expiry} onChange={handleChange} className="form-input payment-input" placeholder="MM/YY" maxLength="5" required={formData.payment_method === 'card'} />
+                </div>
+                <div className="form-group">
+                  <label>CVV</label>
+                  <input type="text" name="card_cvv" value={formData.card_cvv} onChange={handleChange} className="form-input payment-input" placeholder="123" maxLength="4" required={formData.payment_method === 'card'} />
+                </div>
+              </div>
+            </div>
+          )}
+
+          {formData.payment_method === 'paypal' && (
+            <div className="paypal-mockup">
+              <p>You will be redirected to PayPal in a secure window to complete your transaction after confirming.</p>
+            </div>
+          )}
+
         </div>
 
         <div className="form-right-col">
@@ -164,8 +211,8 @@ const BookingForm = ({ room }) => {
             </label>
           </div>
 
-          <button type="submit" className="submit-btn" disabled={status.type === 'loading'} style={{ alignSelf: 'center', width: '50%' }}>
-            {status.type === 'loading' ? 'Processing...' : 'Confirm Booking'}
+          <button type="submit" className="submit-btn" disabled={status.type === 'loading'}>
+            {status.type === 'loading' ? 'Processing...' : `Pay & Confirm Booking`}
           </button>
         </div>
       </form>

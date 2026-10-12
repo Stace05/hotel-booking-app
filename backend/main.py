@@ -62,8 +62,8 @@ class UserLogin(BaseModel):
 
 class RoomCreate(BaseModel):
     name: str
-    type: str          
-    capacity: int      
+    category: str          
+    beds: int      
     price: float
     description: str
     amenities: str    
@@ -90,8 +90,8 @@ def get_room(room_id: int, db: Session = Depends(get_db)):
 def create_room(room_data: RoomCreate, db: Session = Depends(get_db)):
     new_room = models.Room(
         name=room_data.name,
-        type=room_data.type,
-        capacity=room_data.capacity,
+        category=room_data.category,
+        beds=room_data.beds,
         price=room_data.price,
         description=room_data.description,
         amenities=room_data.amenities,

@@ -9,8 +9,8 @@ const AddRoomPage = () => {
 
   const [formData, setFormData] = useState({
     name: '',
-    type: '',
-    capacity: 1,
+    category: '',
+    beds: 1,
     price: 0,
     description: '',
     amenities: '',
@@ -23,11 +23,17 @@ const AddRoomPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    let finalImage = formData.image;
+    if (finalImage && !finalImage.startsWith('http')) {
+      finalImage = `http://localhost:8000/images/${finalImage}`;
+    }
+
+    const payload = { ...formData, image: finalImage };
     try {
       const res = await fetch('http://localhost:8000/api/rooms', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData)
+        body: JSON.stringify(payload)
       });
       if (res.ok) {
         alert('Room added');
@@ -57,18 +63,18 @@ const AddRoomPage = () => {
             </div>
 
             <div className="form-group">
-              <label>Type / Category</label>
-              <input required name="type" type="text" value={formData.type} onChange={handleChange}  />
+              <label>Category</label>
+              <input required name="category" type="text" value={formData.category} onChange={handleChange}  />
             </div>
 
             <div className="form-row">
               <div className="form-group">
                 <label>Capacity</label>
-                <input required name="capacity" type="number" min="1" value={formData.capacity} onChange={handleChange} />
+                <input required name="beds" type="number" min="1" value={formData.beds} onChange={handleChange} />
               </div>
               <div className="form-group">
                 <label>Price / Night ($)</label>
-                <input required name="price" type="number" step="0.01" min="1" value={formData.price} onChange={handleChange} />
+                <input required name="price" type="number" min="1" value={formData.price} onChange={handleChange} />
               </div>
             </div>
 

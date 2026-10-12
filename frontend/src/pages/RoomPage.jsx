@@ -100,8 +100,8 @@ const RoomDetailsPage = () => {
               </li>
               <li className="details-list-item">
                 <span className="details-list-label">Amenities:</span>
-                {room.amenities.join(', ')}
-              </li>
+                {Array.isArray(room.amenities) ? room.amenities.join(', ') : room.amenities}
+                </li>
             </ul>
 
             {user && user.role === 'admin' && (
