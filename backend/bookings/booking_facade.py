@@ -1,10 +1,12 @@
 from sqlalchemy.orm import Session
 from datetime import datetime
-from pure_fabrication import InformationExpert, BookingInformationExpert
+from bookings.repository import InformationExpert, BookingInformationExpert
 from bookings.pricing_strategy import PricingContext, get_pricing_strategy
-from notifications.notifications_observer import BookingEventManager, BonusPointsObserver, EmailNotificationObserver
+from bookings.notifications_observer import BookingEventManager, BonusPointsObserver, EmailNotificationObserver
 from bookings.room_factory import RoomFactory
-from services.services_decorator import BaseBooking, MealsDecorator, TransferDecorator, SpaDecorator
+from bookings.services_decorator import BaseBooking, MealsDecorator, TransferDecorator, SpaDecorator
+
+
 
 class BookingFacade:
     def __init__(self, db: Session):

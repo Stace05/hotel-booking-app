@@ -1,6 +1,7 @@
 from abc import ABC, abstractmethod
 from sqlalchemy.orm import Session
-import models
+from auth.models import User
+from bookings.models import Booking, Room
 
 class BookingObserver(ABC):
     @abstractmethod
@@ -13,7 +14,7 @@ class BonusPointsObserver(BookingObserver):
 
     def update(self, event_type: str, data: dict):
         if event_type == "booking_created" and data.get("user_id"):
-            user = self.db.query(models.User).filter(models.User.id == data["user_id"]).first()
+            user = self.db.query(User).filter(User.id == data["user_id"]).first()
             if user:
                 bonus = data["total_price"] * 0.05
                 user.bonus_points += bonus
