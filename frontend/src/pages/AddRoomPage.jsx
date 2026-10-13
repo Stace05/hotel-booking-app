@@ -1,6 +1,7 @@
 import React, { useState, useContext } from 'react';
-import { AuthContext } from '../context/AuthContext';
+import { AuthContext } from '../app/providers/AuthContext.jsx';
 import { useNavigate } from 'react-router-dom';
+import { API_BASE_URL, BASE_URL } from '../shared/api/config.js';
 import './AddRoomPage.css';
 
 const AddRoomPage = () => {
@@ -24,13 +25,14 @@ const AddRoomPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     let finalImage = formData.image;
+    
     if (finalImage && !finalImage.startsWith('http')) {
-      finalImage = `http://localhost:8000/images/${finalImage}`;
+      finalImage = `${BASE_URL}/images/${finalImage}`;
     }
 
     const payload = { ...formData, image: finalImage };
     try {
-      const res = await fetch('http://localhost:8000/api/rooms', {
+      const res = await fetch(`${API_BASE_URL}/rooms`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)

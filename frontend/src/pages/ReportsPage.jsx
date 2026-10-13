@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { AuthContext } from '../context/AuthContext';
+import { AuthContext } from '../app/providers/AuthContext.jsx';
+import { API_BASE_URL } from '../shared/api/config.js';
 
 const AdminReportsPage = () => {
   const { user } = useContext(AuthContext);
@@ -8,7 +9,7 @@ const AdminReportsPage = () => {
 
   useEffect(() => {
     if (user && user.role === 'admin') {
-      fetch('http://localhost:8000/api/admin/reports')
+      fetch(`${API_BASE_URL}/admin/reports`)
         .then(res => res.json())
         .then(data => {
           setReport(data);

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import RoomCard from '../components/RoomCard';
+import RoomCard from '../entities/room/ui/RoomCard.jsx';
+import { API_BASE_URL } from '../shared/api/config.js';
 import './HomePage.css';
-
 const HomePage = () => {
   const [rooms, setRooms] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -12,7 +12,7 @@ const HomePage = () => {
   const [maxPrice, setMaxPrice] = useState(200);
 
   useEffect(() => {
-    fetch("http://localhost:8000/api/rooms")
+    fetch(`${API_BASE_URL}/rooms`)
       .then((response) => response.json())
       .then((data) => {
         setRooms(data);

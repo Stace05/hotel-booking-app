@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { AuthContext } from '../context/AuthContext';
+import { AuthContext } from '../app/providers/AuthContext.jsx';
+import { API_BASE_URL } from '../shared/api/config.js';
+
 
 const BookingsPage = () => {
   const { user } = useContext(AuthContext);
@@ -7,7 +9,7 @@ const BookingsPage = () => {
   const [loading, setLoading] = useState(true);
 
   const fetchBookings = () => {
-    fetch(`http://localhost:8000/api/users/${user.id}/bookings`)
+    fetch(`${API_BASE_URL}/users/${user.id}/bookings`)
       .then(res => res.json())
       .then(result => {
         setData(result);
@@ -23,7 +25,7 @@ const BookingsPage = () => {
   const handleCancel = async (bookingId) => {
     if (!window.confirm('Are you sure you want to cancel your booking?')) return;
     try {
-      const res = await fetch(`http://localhost:8000/api/bookings/${bookingId}/cancel`, {
+      const res = await fetch(`${API_BASE_URL}/bookings/${bookingId}/cancel`, {
         method: 'PUT'
       });
       if (res.ok) fetchBookings();
@@ -38,7 +40,7 @@ const BookingsPage = () => {
     if (!days || isNaN(days) || parseInt(days) <= 0) return;
 
     try {
-      const res = await fetch(`http://localhost:8000/api/bookings/${bookingId}/extend`, {
+      const res = await fetch(`${API_BASE_URL}/bookings/${bookingId}/extend`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ additional_days: parseInt(days) })

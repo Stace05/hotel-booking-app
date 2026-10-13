@@ -1,6 +1,7 @@
 import React, { useState, useContext } from 'react';
 import { Link } from 'react-router-dom';
-import { AuthContext } from '../context/AuthContext';
+import { AuthContext } from '../../../app/providers/AuthContext.jsx';
+import { API_BASE_URL } from '../../../shared/api/config.js';
 import './BookingForm.css';
 
 const BookingForm = ({ room }) => {
@@ -53,7 +54,7 @@ const BookingForm = ({ room }) => {
     };
     
     try {
-      const response = await fetch('http://localhost:8000/api/bookings', {
+      const response = await fetch(`${API_BASE_URL}/bookings`, {        
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)

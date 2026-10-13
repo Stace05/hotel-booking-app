@@ -1,9 +1,10 @@
 import React, { useState, useEffect, useContext } from 'react'; 
 import { useParams, Link, useNavigate } from 'react-router-dom'; 
 import { FaChevronLeft } from 'react-icons/fa';
-import { AuthContext } from '../context/AuthContext'; 
+import { AuthContext } from '../app/providers/AuthContext.jsx';
+import BookingForm from '../features/create-booking/ui/BookingForm.jsx';
+import { API_BASE_URL } from '../shared/api/config.js';
 import './RoomPage.css';
-import BookingForm from '../components/BookingForm';
 
 const RoomDetailsPage = () => {
   const { id } = useParams();
@@ -15,7 +16,7 @@ const RoomDetailsPage = () => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    fetch(`http://localhost:8000/api/rooms/${id}`)
+    fetch(`${API_BASE_URL}/rooms/${id}`)
       .then((response) => {
         if (!response.ok) {
           throw new Error("Room not found");
@@ -36,7 +37,7 @@ const RoomDetailsPage = () => {
     if (!window.confirm('Are you sure you want to delete this room? ALL bookings for this room will also be deleted!')) return;
     
     try {
-      const res = await fetch(`http://localhost:8000/api/rooms/${id}`, {
+      const res = await fetch(`${API_BASE_URL}/rooms/${id}`, {
         method: 'DELETE'
       });
       if (res.ok) {
