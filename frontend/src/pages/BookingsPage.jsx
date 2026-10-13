@@ -60,7 +60,7 @@ const BookingsPage = () => {
     <div style={{ maxWidth: '900px', margin: '3rem auto', padding: '0 1rem', color: 'white' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '2px solid #EAE0CF', paddingBottom: '1rem', marginBottom: '2rem' }}>
         <h2 style={{ color: '#EAE0CF', margin: 0 }}>My Bookings</h2>
-        <div style={{ backgroundColor: '#111844', padding: '0.5rem 1rem', borderRadius: '8px', border: '1px solid #EAE0CF' }}>
+        <div style={{ backgroundColor: '#111844', padding: '0.5rem 1rem' }}>
           My Bonuses: <strong style={{ color: '#AEC4D4', fontSize: '1.2rem' }}>{data.bonus_points.toFixed(2)}</strong>
         </div>
       </div>
@@ -83,7 +83,7 @@ const BookingsPage = () => {
                 borderLeft: isCancelled ? '4px solid #ff4d4f' : '4px solid #EAE0CF',
                 opacity: isCancelled ? 0.7 : 1
               }}>
-                <div>
+                <div style={{ textAlign: 'left'}}>
                   <h3 style={{ margin: '0 0 0.5rem 0', color: '#EAE0CF' }}>
                     {booking.room_name || `Booking #${booking.id}`}
                   </h3>
@@ -96,9 +96,8 @@ const BookingsPage = () => {
                 <div style={{ textAlign: 'right', display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '1rem' }}>
                   <div style={{ 
                     padding: '0.4rem 1rem', 
-                    backgroundColor: isCancelled ? 'rgba(255, 77, 79, 0.2)' : '#065f46', 
                     color: isCancelled ? '#ff4d4f' : '#d1fae5', 
-                    borderRadius: '4px', 
+                    marginRight: '-20px',
                     fontWeight: 'bold' 
                   }}>
                     {booking.status}
